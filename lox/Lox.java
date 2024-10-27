@@ -1,3 +1,5 @@
+// https://www.craftinginterpreters.com/scanning.html
+
 package lox;
 
 import java.io.BufferedReader;
@@ -12,6 +14,7 @@ public class Lox {
 
     static boolean hadError = false;
 
+    // main method
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("Usage: jlox [script]");
@@ -60,13 +63,13 @@ public class Lox {
     }
 
     // error handling
-    static void error(int line, String message) {
-        report(line, "", message);
+    static void error(int line, int column, String message) {
+        report(line, column, "", message);
     }
 
     private static void report(int line, String where, String message) {
-        System.err.printf("[line: %d] Error %s: %s", line, where, message);
+        System.err.printf("[line: %d] Error %s: \n%s\n", line, where, message);
+        System.err.println(String.valueOf("").repeat(column - 1) + "^");
         hadError = true;
     }
-    
 }
