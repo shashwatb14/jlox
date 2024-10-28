@@ -28,8 +28,8 @@ public class Lox {
 
     // run file if provided
     private static void runFile(String path) throws IOException {
-        byte[] bytes = File.readAllBytes(Paths.get(Path));
-        run(new String(bytes, Charset.defaultCharset()))
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        run(new String(bytes, Charset.defaultCharset()));
 
         // indicate error in exit code
         if (hadError) System.exit(65);
@@ -67,7 +67,8 @@ public class Lox {
         report(line, column, "", message);
     }
 
-    private static void report(int line, String where, String message) {
+    private static void report(int line, int column, String where, 
+                                String message) {
         System.err.printf("[line: %d] Error %s: \n%s\n", line, where, message);
         System.err.println(String.valueOf("").repeat(column - 1) + "^");
         hadError = true;
