@@ -63,14 +63,15 @@ public class Lox {
     }
 
     // error handling
-    static void error(int line, int column, String message) {
-        report(line, column, "", message);
+    static void error(int line, int column, String message, String location) {
+        report(line, column, "", message, location);
     }
 
     private static void report(int line, int column, String where, 
-                                String message) {
-        System.err.printf("[line: %d] Error %s: \n%s\n", line, where, message);
-        System.err.println(String.valueOf("").repeat(column - 1) + "^");
+                                String message, String location) {
+        System.err.printf("[line: %d] Error %s: %s\n\n", line, where, message);
+        System.err.println(location);
+        System.err.println(String.valueOf("-").repeat(column - 1) + "^");
         hadError = true;
     }
 }

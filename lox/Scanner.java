@@ -37,6 +37,7 @@ class Scanner {
 
     // raw source code stored as string
     private final String source;
+    private final String[] lines;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
@@ -45,6 +46,7 @@ class Scanner {
 
     Scanner(String source) {
         this.source = source;
+        this.lines = source.split("\n");
     }
 
     // traverses source code, adding tokens until no more characters left
@@ -105,9 +107,9 @@ class Scanner {
 
 
             // ignore whitespace
-            case ' ': column++; break;
+            case ' ': break;
             case '\r': break;
-            case '\t': column += TAB_SPACES; break;
+            case '\t': column += TAB_SPACES - 1; break;
 
             case '\n':
                 line++;
@@ -126,7 +128,8 @@ class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    Lox.error(line, column, "Unexpected character.");
+                    Lox.error(line, column, "Unexpected character.", 
+                        lines[line - 1]);
                 }
                 break;
         }
@@ -169,7 +172,7 @@ class Scanner {
         }
 
         if (isAtEnd()) {
-            Lox.error(line, column, "Unterminated string.");
+            Lox.error(line, column, "Unterminated string.", lines[line - 1]);
             return;
         }
 
