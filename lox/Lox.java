@@ -1,4 +1,4 @@
-// https://www.craftinginterpreters.com/scanning.html
+// https://www.craftinginterpreters.com/contents.html
 
 package lox;
 
@@ -41,7 +41,7 @@ public class Lox {
         BufferedReader reader = new BufferedReader(input);
 
         while (true) {
-            System.out.println("> ");
+            System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);

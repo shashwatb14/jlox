@@ -100,6 +100,9 @@ class Scanner {
                     // comments go until end of line
                     // no addToken() called so parser doesn't deal with them
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    // block comments
+                    comment();
                 } else {
                     addToken(SLASH);
                 }
@@ -135,6 +138,7 @@ class Scanner {
         }
     }
 
+    // check for identifiers/reserved keywords
     private void identifier() {
         while (isAlphaNumeric(peek())) advance();
 
@@ -182,6 +186,25 @@ class Scanner {
         // trim surrounding quotes
         String value = source.substring(start + 1, current - 1);
         addToken(STRING, value);
+    }
+
+    // to parse nested block comments
+    private void comment() {
+        while ((peek() != '*' || peekNext() != '/') && !isAtEnd()) {
+            if (peek() == '\n') {
+                line++;
+                column = 0;
+            }
+            advance();
+        }
+
+        if (isAtEnd()) {
+            Lox.error(line, column, "Unterminated comment.", lines[line - 1]);
+            return;
+        }
+
+        // closing "*/"
+        advance(); advance();
     }
 
     // checks next expected character
