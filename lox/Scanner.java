@@ -190,11 +190,20 @@ class Scanner {
 
     // to parse nested block comments
     private void comment() {
-        while ((peek() != '*' || peekNext() != '/') && !isAtEnd()) {
+        int depth = 1;
+        while (!isAtEnd()) {
             if (peek() == '\n') {
                 line++;
                 column = 0;
+            } else if ((peek() == '/' && peekNext() == '*')) {
+                depth++;
+                advance();
+            } else if ((peek() == '*' && peekNext() == '/')) {
+                depth--;
+                if (depth == 0) break;
+                advance(); // advance after breaking to avoid consuming extra
             }
+
             advance();
         }
 
