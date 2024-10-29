@@ -1,0 +1,12 @@
+/*
+THIS *
+** IS
+A ***
+MULTILINE //
+// COMMENT
+/* THIS IS A NESTED COMMENT */
+POST NESTED COMMENT
+*/
+
+var variable = "variable";
+print "ERROR
